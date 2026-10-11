@@ -3,6 +3,7 @@ package com.example.review_service.domain.review.controller;
 import com.example.review_service.domain.review.dto.ReviewCreateRequest;
 import com.example.review_service.domain.review.dto.ReviewCreateResponse;
 import com.example.review_service.domain.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<ReviewCreateResponse> createReview(@RequestBody ReviewCreateRequest request) {
+    public ResponseEntity<ReviewCreateResponse> createReview(@Valid @RequestBody ReviewCreateRequest request) {
         ReviewCreateResponse response = reviewService.createReview(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

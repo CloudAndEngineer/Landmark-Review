@@ -70,4 +70,52 @@ class ReviewControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.message").value("리뷰 본문은 필수 입력값입니다."))
                 .andExpect(jsonPath("$.timestamp").exists());
     }
+
+    @Test
+    @DisplayName("리뷰 본문이 공백인 경우 @Valid 검증에 실패하여 HTTP 422 Unprocessable Entity 응답을 반환한다.")
+    void createReview_BlankContent_Returns422() throws Exception {
+        // given
+        ReviewCreateRequest request = ReviewCreateRequest.builder()
+                .placeId(1001L)
+                .placeName("강릉 경포대")
+                .address("강원도 강릉시")
+                .latitude(37.805)
+                .longitude(128.907)
+                .rating(5)
+                .content("   ") // 👈 공백 본문
+                .build();
+
+        // when & then
+        mockMvc.perform(post("/api/v1/reviews")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableContent()) // 422 검증
+                .andExpect(jsonPath("$.message").value("리뷰 본문은 필수 입력값입니다."))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
+    @DisplayName("별점이 범위를 벗어난 경우(6점) @Valid 검증에 실패하여 HTTP 422 Unprocessable Entity 응답을 반환한다.")
+    void createReview_InvalidRating_Returns422() throws Exception {
+        // given
+        ReviewCreateRequest request = ReviewCreateRequest.builder()
+                .placeId(1001L)
+                .placeName("강릉 경포대")
+                .address("강원도 강릉시")
+                .latitude(37.805)
+                .longitude(128.907)
+                .rating(6) // 👈 범위 초과 (최대 5)
+                .content("좋은 장소입니다.")
+                .build();
+
+        // when & then
+        mockMvc.perform(post("/api/v1/reviews")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableContent()) // 422 검증
+                .andExpect(jsonPath("$.message").value("별점은 최대 5점 이하이어야 합니다."))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
 }
