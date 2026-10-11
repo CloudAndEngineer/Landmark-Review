@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8f5" />
+    <meta name="description" content="여행자의 리뷰와 AI 요약으로 나만의 국내 여행을 계획해보세요." />
+    <title>모아 — 여행자의 경험으로 만드는 여행</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="모아 홈"><span class="brand-mark">m</span><span>moa<span class="brand-dot">.</span></span></a>
+      <nav class="main-nav" aria-label="주 메뉴">
+        <button class="nav-link active" data-view="explore">여행지 둘러보기</button>
+        <button class="nav-link" data-view="planner">AI 여행 코스</button>
+      </nav>
+      <div class="top-actions"><span class="local-label"><i></i> 국내 여행</span><button class="avatar" aria-label="내 프로필">여</button></div>
+    </header>
+
+    <main id="home">
+      <section class="intro">
+        <div class="intro-copy">
+          <span class="eyebrow"><span class="sparkle">✳</span> REAL TRAVEL, REAL STORIES</span>
+          <h1>여행자의 경험이<br /><em>다음 여행</em>이 되도록.</h1>
+          <p>직접 다녀온 사람들의 리뷰를 모아<br class="mobile-break" /> AI가 여행의 힌트를 찾아드려요.</p>
+        </div>
+        <div class="intro-note"><span class="note-icon">✦</span><span>리뷰를 모으고<br /><b>여행의 장면을 발견해요</b></span></div>
+      </section>
+
+      <section class="search-wrap" aria-label="여행지 검색">
+        <div class="search-icon" aria-hidden="true">⌕</div>
+        <label class="sr-only" for="place-query">여행지 이름 또는 주소</label>
+        <input id="place-query" type="search" placeholder="어디로 떠나고 싶으세요? 장소명 또는 주소 검색" autocomplete="off" />
+        <button id="search-button" class="search-button"><span>검색</span><span aria-hidden="true">→</span></button>
+        <div id="search-results" class="search-results" hidden></div>
+      </section>
+      <div class="search-hint"><span class="pin-mini">⌖</span> 대한민국 곳곳의 여행지를 찾아보세요 <span class="hint-sep">·</span> <button id="open-planner-inline">여행 코스 추천받기 <span>↗</span></button></div>
+
+      <div class="workspace">
+        <section class="left-column">
+          <div class="section-heading"><div><span class="eyebrow muted">FIND YOUR NEXT STOP</span><h2>어디가 궁금하세요?</h2></div><span class="region-pill"><span>⌖</span> 전국</span></div>
+          <div class="map-card">
+            <div id="map" class="map-canvas" aria-label="대한민국 여행지 지도">
+              <div class="map-art" aria-hidden="true"><div class="sea-label sea-west">서해</div><div class="sea-label sea-east">동해</div><div class="landmass"><span class="map-road road-one"></span><span class="map-road road-two"></span><span class="map-road road-three"></span><span class="map-water"></span><span class="map-island"></span><span class="map-pin pin-seoul"><b></b><small>서울</small></span><span class="map-pin pin-gangneung"><b></b><small>강릉</small></span><span class="map-pin pin-jeonju"><b></b><small>전주</small></span><span class="map-pin pin-busan"><b></b><small>부산</small></span><span class="map-pin pin-jeju"><b></b><small>제주</small></span></div><span class="map-credit">대한민국 여행 지도</span></div>
+              <div id="map-empty" class="map-empty"><span class="map-empty-icon">⌖</span><b>검색한 여행지가 지도에 표시돼요</b><span>장소명이나 주소를 검색해보세요</span></div>
+            </div>
+            <div class="map-controls"><button aria-label="지도 확대">＋</button><button aria-label="지도 축소">−</button><button class="map-locate" aria-label="현재 위치">◎</button></div>
+            <div class="map-legend"><span><i class="legend-dot"></i> 여행지</span><span>지도 제공 <b>Kakao</b></span></div>
+          </div>
+          <div class="map-footer"><span><b>경험이 모이는 곳</b>을 검색하고 리뷰를 확인해보세요.</span><span class="footer-flower">✳</span></div>
+        </section>
+
+        <aside class="right-column">
+          <div class="panel-heading"><div><span class="eyebrow muted">TRAVELER'S LOG</span><h2>여행 기록</h2></div><span class="live-badge"><i></i> LIVE</span></div>
+          <div id="place-panel" class="place-panel empty-panel">
+            <div class="empty-illustration"><div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div><span>✦</span></div>
+            <div class="empty-copy"><b>아직 선택한 여행지가 없어요</b><p>궁금한 곳을 검색하면<br />여행자들의 생생한 기록을 볼 수 있어요.</p></div>
+            <div class="empty-perks"><span><i>✦</i> 리뷰별 AI 요약</span><span><i>◉</i> 장소 분위기 한눈에</span></div>
+          </div>
+          <div id="place-detail" class="place-panel detail-panel" hidden>
+            <div class="detail-cover"><div class="cover-orbit"></div><span class="cover-region">KOREA · TRAVEL NOTE</span><button id="close-place" class="close-place" aria-label="선택 해제">×</button><div id="detail-category" class="category-chip">여행지</div></div>
+            <div class="detail-body">
+              <div class="place-title-row"><div><h3 id="detail-name">여행지</h3><p id="detail-address" class="place-address"></p></div><div class="rating"><span>★</span><b id="detail-rating">—</b></div></div>
+              <div class="summary-box"><div class="summary-label"><span class="ai-mark">✦</span> 모아 AI 분위기 요약</div><p id="detail-summary">이 장소의 리뷰를 모아 분위기를 요약해드려요.</p></div>
+              <div class="reviews-heading"><h4>다녀온 사람들의 이야기</h4><span id="review-count">리뷰 0</span></div>
+              <div id="reviews-list" class="reviews-list"><div class="reviews-empty">첫 번째 여행 기록을 남겨주세요.</div></div>
+              <button id="write-review" class="write-review"><span>＋</span> 나의 여행 기록 남기기</button>
+            </div>
+          </div>
+          <div class="community-note"><span class="community-icon">♡</span><span><b>당신의 리뷰가 다음 여행자에게</b><br />좋은 여행의 시작이 될 수 있어요.</span><span class="note-arrow">↗</span></div>
+        </aside>
+      </div>
+
+      <section id="planner-section" class="planner-section">
+        <div class="planner-intro"><span class="eyebrow">A ROUTE MADE FOR YOU</span><h2>다음 여행, <em>모아에게 물어보세요.</em></h2><p>여러 여행자의 리뷰를 바탕으로 취향에 맞는 여정을 그려드려요.</p></div>
+        <div class="planner-card">
+          <div class="planner-top"><div class="planner-icon">✳</div><div><b>AI 여행 코스 추천</b><span>여행의 조건을 알려주면 알맞은 흐름을 제안해요.</span></div><span class="beta-pill">BETA</span></div>
+          <form id="planner-form" class="planner-form">
+            <label class="field"><span>어디로 떠나세요?</span><input id="trip-city" placeholder="예: 강릉, 전주, 제주도" required /></label>
+            <label class="field"><span>여행 기간</span><select id="trip-days"><option value="1">당일치기</option><option value="2" selected>1박 2일</option><option value="3">2박 3일</option><option value="4">3박 4일</option><option value="5">4박 이상</option></select></label>
+            <label class="field field-wide"><span>어떤 여행을 원하세요?</span><textarea id="trip-condition" rows="2" placeholder="예: 대중교통으로 이동하고, 조용한 바다와 현지 맛집을 즐기고 싶어요."></textarea></label>
+            <button class="plan-button" type="submit">내 여행 코스 그려보기 <span>↗</span></button>
+          </form>
+          <div id="planner-message" class="planner-message" hidden></div>
+          <div class="planner-foot"><span>✦</span> 여행자 리뷰와 장소 간 이동 흐름을 함께 고려해요.</div>
+        </div>
+      </section>
+      <footer class="footer"><a class="brand footer-brand" href="#home"><span class="brand-mark">m</span><span>moa<span class="brand-dot">.</span></span></a><span>좋은 여행의 기억을 모아요.</span><span class="footer-copy">© 2026 MOA TRAVEL</span></footer>
+    </main>
+
+    <dialog id="review-dialog" class="review-dialog">
+      <form id="review-form" method="dialog">
+        <div class="dialog-top"><div><span class="eyebrow muted">YOUR TRAVEL NOTE</span><h2>여행 기록 남기기</h2></div><button type="button" id="close-dialog" class="dialog-close" aria-label="닫기">×</button></div>
+        <p id="dialog-place-name" class="dialog-place"></p>
+        <label class="form-label">이번 여행은 어땠나요?<span class="required">*</span></label>
+        <div id="rating-picker" class="rating-picker" role="radiogroup" aria-label="별점"><button type="button" data-rating="1" aria-label="1점">★</button><button type="button" data-rating="2" aria-label="2점">★</button><button type="button" data-rating="3" aria-label="3점">★</button><button type="button" data-rating="4" aria-label="4점">★</button><button type="button" data-rating="5" aria-label="5점">★</button><span id="rating-label">별점을 선택해주세요</span></div>
+        <label class="form-label" for="review-content">여행 이야기를 들려주세요<span class="required">*</span></label>
+        <textarea id="review-content" maxlength="1000" rows="5" placeholder="기억에 남는 풍경, 맛있었던 음식, 작은 팁까지 자유롭게 적어주세요." required></textarea>
+        <div class="character-count"><span id="review-error" role="status"></span><span><b id="char-count">0</b> / 1000</span></div>
+        <div class="tag-label">어떤 순간이었나요? <span>선택</span></div>
+        <div class="tag-picker"><button type="button">풍경이 좋아요</button><button type="button">맛집 추천</button><button type="button">조용한 휴식</button><button type="button">가족과 함께</button><button type="button">사진 명소</button></div>
+        <button class="submit-review" type="submit">리뷰 등록하고 요약 받기 <span>→</span></button>
+        <p class="privacy-note">작성한 리뷰는 장소를 찾는 다른 여행자에게 공개돼요.</p>
+      </form>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
