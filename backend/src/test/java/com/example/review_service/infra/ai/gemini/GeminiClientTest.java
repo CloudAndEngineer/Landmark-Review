@@ -30,7 +30,7 @@ class GeminiClientTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Value("${gemini.api.url:https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent}")
+    @Value("${gemini.api.url:https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent}")
     private String expectedUrl;
 
     @BeforeEach
